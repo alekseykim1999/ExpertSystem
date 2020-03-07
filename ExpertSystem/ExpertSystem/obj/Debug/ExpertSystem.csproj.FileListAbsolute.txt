@@ -1,0 +1,10 @@
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\bin\Debug\ExpertSystem.exe.config
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\bin\Debug\ExpertSystem.exe
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\bin\Debug\ExpertSystem.pdb
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.csprojAssemblyReference.cache
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.Form1.resources
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.Properties.Resources.resources
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.csproj.GenerateResource.cache
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.csproj.CoreCompileInputs.cache
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.exe
+D:\Институт\Искусственный интеллект\Expert System\ExpertSystem\ExpertSystem\obj\Debug\ExpertSystem.pdb
