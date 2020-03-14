@@ -13,7 +13,7 @@ namespace ExpertSystem
 {
     public partial class Form1 : Form
     {
-        List<int> id_questions = new List<int>();
+        List<int> id_facts = new List<int>();
         List<string> name_questions = new List<string>();
         List<int> id_value = new List<int>();
         int counter = 0;
@@ -27,8 +27,8 @@ namespace ExpertSystem
             Dictionary<int, string> displayer = writer.questions();
             foreach (var item in displayer)
             {
-                id_questions.Add(item.Key);
-                name_questions.Add(item.Value);
+                id_facts.Add(item.Key); //записывает ID факта
+                name_questions.Add(item.Value); //записывает вопросы
             }
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -56,11 +56,13 @@ namespace ExpertSystem
         {
             int current_question = ++counter;
             listBox2.Items.Add(listBox1.SelectedItem);
+            int num_value= id_value[listBox1.SelectedIndex];
+            int numFact = id_facts[current_question - 1];
             listBox1.Items.Clear();
             textBox1.Text = "";
-            int numFact = id_questions[current_question];
+            int numFactNext = id_facts[current_question]; //,берет ID следующего факта для вывода на форму
             textBox1.Text = name_questions[current_question].ToString();
-            AddValues(numFact);
+            AddValues(numFactNext);
 
 
         }
@@ -71,15 +73,17 @@ namespace ExpertSystem
             {
                 counter = 0;
             }
+            DisplayQuestions cleaner = new DisplayQuestions();
+            cleaner.Clear_Info();
             textBox1.Text = "";
             listBox1.Items.Clear();
             listBox2.Items.Clear();
-            id_questions.Clear();
+            id_facts.Clear();
             name_questions.Clear();
             id_value.Clear();
             Get_All_Questions();
             AddValues(counter);
-            int numFact = id_questions[counter];
+            int numFact = id_facts[counter];
             textBox1.Text = name_questions[counter].ToString();
             AddValues(numFact);
 
