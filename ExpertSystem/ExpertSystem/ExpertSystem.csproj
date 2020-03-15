@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes_for_work\CheckAnswer.cs" />
     <Compile Include="Classes_for_work\CreateLabels.cs" />
     <Compile Include="Classes_for_work\DisplayQuestions.cs" />
     <Compile Include="Classes_for_work\GetVariants.cs" />

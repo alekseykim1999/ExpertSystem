@@ -18,11 +18,12 @@ namespace ExpertSystem.Classes_for_work
 
         public GetVariants()
         {
-            myConnection = new OleDbConnection(connectString);
-            myConnection.Open();
+            
         }
         public Dictionary<int, string> values()
         {
+            myConnection = new OleDbConnection(connectString);
+            myConnection.Open();
             Dictionary<int, string> lines = new Dictionary<int, string>();
             string query = "SELECT [ID_value],[Name_value] FROM [Enable_values] WHERE [Num_fact] = " +  ID_fact;
             OleDbCommand command = new OleDbCommand(query, myConnection);

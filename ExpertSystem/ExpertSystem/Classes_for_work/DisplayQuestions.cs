@@ -22,7 +22,7 @@ namespace ExpertSystem.Classes_for_work
         public Dictionary<int,string> questions() //вывод всех вопросов
         {
             Dictionary<int,string> lines = new Dictionary<int, string>();
-            string query = "SELECT Question_fact,ID_fact FROM Facts";
+            string query = "SELECT Question_fact,ID_fact FROM Facts WHERE Type_fact = 0";
             OleDbCommand command = new OleDbCommand(query, myConnection);
             OleDbDataReader reader = command.ExecuteReader();
             while(reader.Read())

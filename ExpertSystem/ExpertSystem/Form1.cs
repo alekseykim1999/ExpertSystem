@@ -13,10 +13,13 @@ namespace ExpertSystem
 {
     public partial class Form1 : Form
     {
-        List<int> id_facts = new List<int>();
-        List<string> name_questions = new List<string>();
-        List<int> id_value = new List<int>();
-        int counter = 0;
+        List<int> id_facts = new List<int>(); //хранит id факта
+        List<string> name_questions = new List<string>(); //хранит вопросы к фактам
+        List<int> id_value = new List<int>(); //хранит id разрешенного значения
+
+        CreateLabels creator = new CreateLabels(); //объект для расставления меток
+        GetVariants values = new GetVariants(); //создает объект для вывода разрешенных значений
+        int counter = 0; //счетчик, чтобы идти по вопросам
         public Form1()
         {
             InitializeComponent();
@@ -37,13 +40,13 @@ namespace ExpertSystem
 
         private void AddValues(int numFact)
         {
-            GetVariants values = new GetVariants();
-            values.ID_fact = numFact;
+            
+            values.ID_fact = numFact; //сохраняет номер данного факта
             Dictionary<int, string> enable_val = values.values();
             foreach(var item in enable_val)
             {
-                listBox1.Items.Add(item.Value);
-                id_value.Add(item.Key);
+                listBox1.Items.Add(item.Value); //записывает разрешенные значения
+                id_value.Add(item.Key); //записывает id разрешенных значений
             }
         }
 
@@ -54,22 +57,31 @@ namespace ExpertSystem
 
         private void Select_Click(object sender, EventArgs e)
         {
-            int current_question = ++counter;
-            listBox2.Items.Add(listBox1.SelectedItem);
-            int num_value= id_value[listBox1.SelectedIndex];
-            int numFact = id_facts[current_question - 1];
-            listBox1.Items.Clear();
+            int current_question = ++counter; //текущий вопрос
+            listBox2.Items.Add(textBox1.Text + " "+ listBox1.SelectedItem); //добавление в историю
+            int num_value= id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
+            int numFact = id_facts[current_question - 1]; //номер факта
+            creator.WriteLabel(numFact, num_value);
+            listBox1.Items.Clear(); //очищение
             textBox1.Text = "";
-            int numFactNext = id_facts[current_question]; //,берет ID следующего факта для вывода на форму
-            textBox1.Text = name_questions[current_question].ToString();
-            AddValues(numFactNext);
+            try
+            {
+                int numFactNext = id_facts[current_question]; //,берет ID следующего факта для вывода на форму
+                textBox1.Text = name_questions[current_question].ToString(); //берет следующий вопрос
+                AddValues(numFactNext); //выводит разрешенные значения следующего факта
+            }
+            catch
+            {
+                MessageBox.Show("Конец вопросов");
+            }
+           
 
 
         }
 
         private void Consult_btn_Click(object sender, EventArgs e)
         {
-            if(counter>0)
+            if(counter>0) 
             {
                 counter = 0;
             }
