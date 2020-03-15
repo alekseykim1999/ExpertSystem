@@ -61,9 +61,15 @@ namespace ExpertSystem
             listBox2.Items.Add(textBox1.Text + " "+ listBox1.SelectedItem); //добавление в историю
             int num_value= id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
             int numFact = id_facts[current_question - 1]; //номер факта
+
             creator.WriteLabel(numFact, num_value);
+
             listBox1.Items.Clear(); //очищение
             textBox1.Text = "";
+            id_facts.Clear();
+            id_value.Clear();
+            name_questions.Clear();
+            Get_All_Questions();
             try
             {
                 int numFactNext = id_facts[current_question]; //,берет ID следующего факта для вывода на форму
@@ -72,7 +78,10 @@ namespace ExpertSystem
             }
             catch
             {
-                MessageBox.Show("Конец вопросов");
+                CheckAnswer displayer = new CheckAnswer();
+                string answer = displayer.GetAnswer();
+                MessageBox.Show(answer);
+                Select.Enabled = false;
             }
            
 
@@ -81,24 +90,26 @@ namespace ExpertSystem
 
         private void Consult_btn_Click(object sender, EventArgs e)
         {
-            if(counter>0) 
+            Select.Enabled = true;
+            DisplayQuestions cleaner = new DisplayQuestions();
+            cleaner.Clear_Info();
+            if (counter>0) 
             {
                 counter = 0;
             }
-            DisplayQuestions cleaner = new DisplayQuestions();
-            cleaner.Clear_Info();
+           
             textBox1.Text = "";
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             id_facts.Clear();
             name_questions.Clear();
             id_value.Clear();
+
             Get_All_Questions();
             AddValues(counter);
             int numFact = id_facts[counter];
             textBox1.Text = name_questions[counter].ToString();
             AddValues(numFact);
-
 
 
 

@@ -68,6 +68,7 @@
             // 
             // Select
             // 
+            this.Select.Enabled = false;
             this.Select.Location = new System.Drawing.Point(203, 379);
             this.Select.Name = "Select";
             this.Select.Size = new System.Drawing.Size(138, 31);
