@@ -27,7 +27,7 @@ namespace ExpertSystem
         private void Get_All_Questions()
         {
             DisplayQuestions writer = new DisplayQuestions();
-            Dictionary<int, string> displayer = writer.questions();
+            SortedDictionary<int, string> displayer = writer.questions_by_analysis();
             foreach (var item in displayer)
             {
                 id_facts.Add(item.Key); //записывает ID факта
@@ -36,6 +36,8 @@ namespace ExpertSystem
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            DisplayQuestions cleaner = new DisplayQuestions();
+            cleaner.Clear_Info();
         }
 
         private void AddValues(int numFact)
@@ -69,11 +71,13 @@ namespace ExpertSystem
             id_facts.Clear();
             id_value.Clear();
             name_questions.Clear();
+
+            
             Get_All_Questions();
             try
             {
-                int numFactNext = id_facts[current_question]; //,берет ID следующего факта для вывода на форму
-                textBox1.Text = name_questions[current_question].ToString(); //берет следующий вопрос
+                int numFactNext = id_facts[counter]; //,берет ID следующего факта для вывода на форму
+                textBox1.Text = name_questions[counter].ToString(); //берет следующий вопрос
                 AddValues(numFactNext); //выводит разрешенные значения следующего факта
             }
             catch
@@ -93,11 +97,13 @@ namespace ExpertSystem
             Select.Enabled = true;
             DisplayQuestions cleaner = new DisplayQuestions();
             cleaner.Clear_Info();
+
+
             if (counter>0) 
             {
                 counter = 0;
             }
-           
+            
             textBox1.Text = "";
             listBox1.Items.Clear();
             listBox2.Items.Clear();
