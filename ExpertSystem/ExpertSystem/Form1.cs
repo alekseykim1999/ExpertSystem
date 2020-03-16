@@ -24,8 +24,11 @@ namespace ExpertSystem
         {
             InitializeComponent();
         }
+
         private void Get_All_Questions()
         {
+
+
             DisplayQuestions writer = new DisplayQuestions();
             SortedDictionary<int, string> displayer = writer.questions_by_analysis();
             foreach (var item in displayer)
@@ -33,6 +36,8 @@ namespace ExpertSystem
                 id_facts.Add(item.Key); //записывает ID факта
                 name_questions.Add(item.Value); //записывает вопросы
             }
+
+
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -59,26 +64,27 @@ namespace ExpertSystem
 
         private void Select_Click(object sender, EventArgs e)
         {
-            int current_question = ++counter; //текущий вопрос
+           
             listBox2.Items.Add(textBox1.Text + " "+ listBox1.SelectedItem); //добавление в историю
-            int num_value= id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
-            int numFact = id_facts[current_question - 1]; //номер факта
 
-            creator.WriteLabel(numFact, num_value);
+
+            int num_value= id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
+            int numFact = id_facts[0]; //номер факта
+
+            creator.WriteLabel(numFact, num_value); //запись меток
 
             listBox1.Items.Clear(); //очищение
             textBox1.Text = "";
+
             id_facts.Clear();
             id_value.Clear();
             name_questions.Clear();
-
-            
-            Get_All_Questions();
+            Get_All_Questions(); //получить отфильтрованные факты
             try
             {
-                int numFactNext = id_facts[counter]; //,берет ID следующего факта для вывода на форму
-                textBox1.Text = name_questions[counter].ToString(); //берет следующий вопрос
-                AddValues(numFactNext); //выводит разрешенные значения следующего факта
+                int numFactNext = id_facts[0]; //берет ID самого первого факта из отфильтрованных. Предыдущего факта нет 
+                textBox1.Text = name_questions[0];
+                AddValues(numFactNext); //выводит разрешенные значения факта
             }
             catch
             {
@@ -97,7 +103,12 @@ namespace ExpertSystem
             Select.Enabled = true;
             DisplayQuestions cleaner = new DisplayQuestions();
             cleaner.Clear_Info();
-
+            textBox1.Text = "";
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            id_facts.Clear();
+            name_questions.Clear();
+            id_value.Clear();
 
             if (counter>0) 
             {
