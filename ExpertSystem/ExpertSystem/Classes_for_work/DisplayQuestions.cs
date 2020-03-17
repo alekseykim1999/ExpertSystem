@@ -13,48 +13,18 @@ namespace ExpertSystem.Classes_for_work
     {
         public static string connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Knowledge.mdb;";
         private OleDbConnection myConnection;
+
         SortedDictionary<int, string> lines = new SortedDictionary<int, string>();
         public DisplayQuestions()
         {
             myConnection = new OleDbConnection(connectString);
             myConnection.Open();
         }   
-        public SortedDictionary<int,string> questions_by_analysis() //вывод вопросов и фактов с предварительным анализом. Вызывается с каждым выбором
+        
+
+        public SortedDictionary<int, string> questions() //проверка
         {
-
-            //опрашиваем факты, которые 
-            //1) нужны для ответа - type fact = 0
-            //2) которые еще не опрошены - label = 0
-            //3) которые входят в хорошее правило, то есть правило, где есть совпадение по факту и значению rule check = 0
-
-            //количество фактов, которые надо опросить, значительно уменьшится
             lines.Clear();
-            //string query = "SELECT distinct [Question_fact],[ID_fact] FROM [Facts] INNER JOIN " +
-            //    " ([Parcels] INNER JOIN [Conclusion] ON [Parcels].[Num_rule] = [Conclusion].[Num_of_rule])" +
-            //    " ON [Facts].[ID_fact] = [Parcels].[Num_fact] WHERE [Facts].[Type_fact] = 0 AND [Parcels].[Label] = 0 AND [Conclusion].[Rule_check] = 0";
-
-            string query = "SELECT distinct [Question_fact],[ID_fact] FROM [Facts] WHERE " +
-                "[Facts].[Type_fact] = 0 AND [Facts].[ID_fact] = ANY ( SELECT distinct [Num_fact] FROM [Parcels] WHERE [Label] = 0 AND " +
-                "[Num_rule] = ANY ( SELECT distinct [Num_of_rule] FROM [Conclusion] WHERE [Rule_check] = 0 ))";
-            OleDbCommand command = new OleDbCommand(query, myConnection);
-            OleDbDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                
-                   lines.Add(Convert.ToInt32(reader[1]), reader[0].ToString());
-
-            }
-            reader.Close();
-            questions();
-            myConnection.Close();
-           
-            return lines;
-        }
-
-
-
-        public void questions() //проверка
-        {
             List<int> numbers_of_good_rules = new List<int>();
            
             string query = "SELECT [Num_of_rule] FROM [Conclusion] WHERE [Rule_check] = 0";
@@ -90,24 +60,22 @@ namespace ExpertSystem.Classes_for_work
             my_facts.AddRange(middle_codes);
 
 
-            List<string> questons = new List<string>();
-            //примени словарь
+            //применить словарь
             for (int i = 0; i < my_facts.Count; i++)
             {
-                string query2 = "SELECT distinct [Question_fact] FROM [Facts] WHERE [ID_fact] =  " + my_facts[i];
+                string query2 = "SELECT distinct [Question_fact],[ID_fact] FROM [Facts] WHERE [ID_fact] =  " + my_facts[i];
                 OleDbCommand command2 = new OleDbCommand(query2, myConnection);
                 OleDbDataReader reader2 = command2.ExecuteReader();
                 while (reader2.Read())
                 {
 
-                    questons.Add(reader2[0].ToString());
-                    break;
+                    lines.Add(Convert.ToInt32(reader2[1]), reader2[0].ToString());                   
 
                 }
                 reader2.Close();
 
             }
-            questons.Distinct(); //вывод требуемых вопросов
+            return lines;
             
         }
 

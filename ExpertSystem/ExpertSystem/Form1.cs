@@ -30,7 +30,7 @@ namespace ExpertSystem
 
 
             DisplayQuestions writer = new DisplayQuestions();
-            SortedDictionary<int, string> displayer = writer.questions_by_analysis();
+            SortedDictionary<int, string> displayer = writer.questions();
             foreach (var item in displayer)
             {
                 id_facts.Add(item.Key); //записывает ID факта
@@ -110,22 +110,18 @@ namespace ExpertSystem
             name_questions.Clear();
             id_value.Clear();
 
-            if (counter>0) 
-            {
-                counter = 0;
-            }
-            
+          
             textBox1.Text = "";
             listBox1.Items.Clear();
             listBox2.Items.Clear();
+
             id_facts.Clear();
             name_questions.Clear();
             id_value.Clear();
 
             Get_All_Questions();
-            AddValues(counter);
-            int numFact = id_facts[counter];
-            textBox1.Text = name_questions[counter].ToString();
+            int numFact = id_facts[0];
+            textBox1.Text = name_questions[0].ToString();
             AddValues(numFact);
 
 
