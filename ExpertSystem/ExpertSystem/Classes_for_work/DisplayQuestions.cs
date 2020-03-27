@@ -20,8 +20,6 @@ namespace ExpertSystem.Classes_for_work
             myConnection = new OleDbConnection(connectString);
             myConnection.Open();
         }   
-        
-
         public SortedDictionary<int, string> questions() //проверка
         {
             lines.Clear();
@@ -63,7 +61,7 @@ namespace ExpertSystem.Classes_for_work
             //применить словарь
             for (int i = 0; i < my_facts.Count; i++)
             {
-                string query2 = "SELECT distinct [Question_fact],[ID_fact] FROM [Facts] WHERE [ID_fact] =  " + my_facts[i];
+                string query2 = "SELECT distinct [Question_fact],[ID_fact] FROM [Facts] WHERE[Type_fact] = 0 AND [ID_fact] =  " + my_facts[i];
                 OleDbCommand command2 = new OleDbCommand(query2, myConnection);
                 OleDbDataReader reader2 = command2.ExecuteReader();
                 while (reader2.Read())

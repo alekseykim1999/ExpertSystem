@@ -19,6 +19,8 @@ namespace ExpertSystem
 
         CreateLabels creator = new CreateLabels(); //объект для расставления меток
         GetVariants values = new GetVariants(); //создает объект для вывода разрешенных значений
+        CheckAnswer middle_facts = new CheckAnswer(); //проверка выполнения промежуточных фактов
+        CheckAnswer displayer_answer = new CheckAnswer(); //вывод ответа, если он есть
         int counter = 0; //счетчик, чтобы идти по вопросам
         public Form1()
         {
@@ -27,7 +29,6 @@ namespace ExpertSystem
 
         private void Get_All_Questions()
         {
-
 
             DisplayQuestions writer = new DisplayQuestions();
             SortedDictionary<int, string> displayer = writer.questions();
@@ -63,37 +64,65 @@ namespace ExpertSystem
         }
 
         private void Select_Click(object sender, EventArgs e)
-        {
+        {           
+            
+            
+                int num_value = id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
+                int numFact = id_facts[0]; //номер факта
+                creator.WriteLabel(numFact, num_value); //запись меток
+                listBox2.Items.Add(textBox1.Text + " " + listBox1.SelectedItem); //добавление в историю
+
+                listBox1.Items.Clear(); //очищение
+                textBox1.Text = "";
+
+                id_facts.Clear();
+                id_value.Clear();
+                name_questions.Clear();
+
+                string answer = displayer_answer.GetAnswer();
+                if (answer != "")
+                {
+                    if (!answer.Contains("*"))
+                    {
+                        MessageBox.Show(answer);
+                    }
+                    else
+                    {
+                        listBox3.Items.Add(answer);
+                    }
+                   
+
+                }
+                else
+                {
+                    Get_All_Questions(); //получить отфильтрованные факты   
+                    try
+                    {
+                        int numFactNext = id_facts[0]; //берет ID самого первого факта из отфильтрованных. Предыдущего факта нет 
+                        textBox1.Text = name_questions[0];
+                        AddValues(numFactNext); //выводит разрешенные значения факта
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Конец всех вопросов. Ответ не найден");
+                    }
+                }
+            
+            
+            
+
+            
+
+
            
-            listBox2.Items.Add(textBox1.Text + " "+ listBox1.SelectedItem); //добавление в историю
-
-
-            int num_value= id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
-            int numFact = id_facts[0]; //номер факта
-
-            creator.WriteLabel(numFact, num_value); //запись меток
-
-            listBox1.Items.Clear(); //очищение
-            textBox1.Text = "";
-
-            id_facts.Clear();
-            id_value.Clear();
-            name_questions.Clear();
-            Get_All_Questions(); //получить отфильтрованные факты
-            try
-            {
-                int numFactNext = id_facts[0]; //берет ID самого первого факта из отфильтрованных. Предыдущего факта нет 
-                textBox1.Text = name_questions[0];
-                AddValues(numFactNext); //выводит разрешенные значения факта
-            }
-            catch
-            {
-                CheckAnswer displayer = new CheckAnswer();
-                string answer = displayer.GetAnswer();
-                MessageBox.Show(answer);
-                Select.Enabled = false;
-            }
            
+            
+           
+            
+
+
+
+
 
 
         }
@@ -106,6 +135,7 @@ namespace ExpertSystem
             textBox1.Text = "";
             listBox1.Items.Clear();
             listBox2.Items.Clear();
+            listBox3.Items.Clear();
             id_facts.Clear();
             name_questions.Clear();
             id_value.Clear();
@@ -137,6 +167,21 @@ namespace ExpertSystem
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
