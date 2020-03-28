@@ -64,37 +64,35 @@ namespace ExpertSystem
         }
 
         private void Select_Click(object sender, EventArgs e)
-        {           
-            
-            
-                int num_value = id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
-                int numFact = id_facts[0]; //номер факта
-                creator.WriteLabel(numFact, num_value); //запись меток
-                listBox2.Items.Add(textBox1.Text + " " + listBox1.SelectedItem); //добавление в историю
+        {
+            int num_value = id_value[listBox1.SelectedIndex]; //номер выбранного разрешенного значения
+            int numFact = id_facts[0]; //номер факта
+            creator.WriteLabel(numFact, num_value); //запись меток
+            listBox2.Items.Add(textBox1.Text + " " + listBox1.SelectedItem); //добавление в историю
 
-                listBox1.Items.Clear(); //очищение
-                textBox1.Text = "";
+            listBox1.Items.Clear(); //очищение
+            textBox1.Text = "";
 
-                id_facts.Clear();
-                id_value.Clear();
-                name_questions.Clear();
+            id_facts.Clear();
+            id_value.Clear();
+            name_questions.Clear();
 
-                string answer = displayer_answer.GetAnswer();
-                if (answer != "")
+            string answer = displayer_answer.GetAnswer();
+            if(answer!="")
+            {
+                if (!answer.Contains("*")) //если факт не содержит звездочки, то есть он целевой
                 {
-                    if (!answer.Contains("*"))
-                    {
-                        MessageBox.Show(answer);
-                    }
-                    else
-                    {
-                        listBox3.Items.Add(answer);
-                    }
-                   
+                    MessageBox.Show(answer);
 
                 }
                 else
                 {
+                    if (!listBox3.Items.Contains(answer))
+                    {
+                        listBox3.Items.Add(answer); //иначе факт промежуточный. Добавляем в список, расставляем метки, опрашиваем 
+
+                    }
+
                     Get_All_Questions(); //получить отфильтрованные факты   
                     try
                     {
@@ -104,30 +102,37 @@ namespace ExpertSystem
                     }
                     catch
                     {
-                        MessageBox.Show("Конец всех вопросов. Ответ не найден");
+                        CheckAnswer displayer = new CheckAnswer();
+                        string answer1 = displayer.GetEndAnswer();
+                        MessageBox.Show(answer1);
+                        Select.Enabled = false;
+
                     }
                 }
-            
-            
-            
+            }
+            else
+            {
+                //MessageBox.Show(answer);
+                Get_All_Questions(); //получить отфильтрованные факты   
+                try
+                {
+                    int numFactNext = id_facts[0]; //берет ID самого первого факта из отфильтрованных. Предыдущего факта нет 
+                    textBox1.Text = name_questions[0];
+                    AddValues(numFactNext); //выводит разрешенные значения факта
+                }
+                catch
+                {
+                    CheckAnswer displayer = new CheckAnswer();
+                    string answer1 = displayer.GetEndAnswer();
+                    MessageBox.Show(answer1);
+                    Select.Enabled = false;
 
-            
-
-
-           
-           
-            
-           
-            
-
-
-
-
-
-
+                }
+            }
+                
         }
 
-        private void Consult_btn_Click(object sender, EventArgs e)
+    private void Consult_btn_Click(object sender, EventArgs e)
         {
             Select.Enabled = true;
             DisplayQuestions cleaner = new DisplayQuestions();
